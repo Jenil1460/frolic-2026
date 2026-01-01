@@ -1,0 +1,23 @@
+.coordinator-management .form-group {
+    margin-bottom: 1rem;
+}
+
+.coordinator-management .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.coordinator-management .form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.coordinator-management .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}

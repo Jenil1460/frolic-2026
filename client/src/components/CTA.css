@@ -1,0 +1,4 @@
+.cta{padding:36px 20px;margin-top:16px}
+.cta-inner{background:linear-gradient(90deg,#7c5cff 2%, #5ad4ff 50%, #ff7fd5 100%);padding:18px;border-radius:12px;color:#021;display:flex;justify-content:space-between;align-items:center}
+.primary.big{background:#021;padding:12px 18px;border-radius:10px;color:#fff;font-weight:800}
+@media(max-width:680px){.cta-inner{flex-direction:column;gap:14px;text-align:center}}

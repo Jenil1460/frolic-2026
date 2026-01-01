@@ -1,0 +1,142 @@
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cosmic-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-gradient-start) 0%,
+    var(--color-gradient-middle) 50%,
+    var(--color-gradient-end) 100%
+  );
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Particle effects */
+.cosmic-background::before,
+.cosmic-background::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.cosmic-background::before {
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent),
+    radial-gradient(1px 1px at 75% 25%, white, transparent);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  animation: starsMove 120s linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes starsMove {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Floating decorative elements with enhanced glow */
+.floating-element {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  animation: float 20s ease-in-out infinite;
+  box-shadow: 0 0 80px currentColor;
+}
+
+.planet-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #EC4899 0%, #8B5CF6 100%);
+  top: 10%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.planet-2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #6366F1 0%, #A78BFA 100%);
+  bottom: 15%;
+  right: 10%;
+  animation-delay: 5s;
+}
+
+.orb-1 {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, #60A5FA 0%, #3B82F6 100%);
+  top: 50%;
+  right: 20%;
+  animation-delay: 3s;
+}
+
+.orb-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, #A78BFA 0%, #7C3AED 100%);
+  bottom: 30%;
+  left: 5%;
+  animation-delay: 7s;
+}
+
+.orb-3 {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, #F472B6 0%, #EC4899 100%);
+  top: 20%;
+  right: 35%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(20px, 30px) scale(1.05);
+  }
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: var(--spacing-lg);
+}
+
+@media (max-width: 640px) {
+  .auth-container {
+    padding: var(--spacing-md);
+  }
+  
+  .floating-element {
+    filter: blur(60px);
+  }
+}

@@ -1,0 +1,9 @@
+.testimonials{padding:36px 20px;color:#fff}
+.section-title{font-size:1.35rem;margin-bottom:18px}
+.carousel{position:relative;min-height:120px}
+.slide{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);transition:all .45s;display:flex;gap:12px;align-items:center}
+.slide.active{opacity:1;transform:translateY(0)}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(90deg,#7c5cff,#5ad4ff);display:flex;align-items:center;justify-content:center;font-weight:800}
+.name{font-weight:700}
+.inst{font-weight:600;opacity:.9;margin-left:8px}
+.slide p{margin:6px 0 0;opacity:.95}

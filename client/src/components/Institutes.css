@@ -1,0 +1,4 @@
+.inst-section{padding:36px 20px;color:#fff}
+.inst-row{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px}
+.inst-card{min-width:160px;background:rgba(255,255,255,0.03);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);text-align:center;transition:transform .25s}
+.inst-card:hover{transform:translateY(-6px)}

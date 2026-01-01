@@ -1,0 +1,40 @@
+@import '../../admin-theme.css';
+
+.group-management {
+  max-width: 1400px;
+}
+
+.event-selector {
+  margin-bottom: var(--admin-space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-md);
+  padding: var(--admin-space-lg);
+  background: var(--admin-bg-primary);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--admin-border-light);
+}
+
+.event-selector label {
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-medium);
+  color: var(--admin-text-primary);
+}
+
+.event-selector select {
+  flex: 1;
+  max-width: 400px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-sm);
+  font-family: var(--admin-font-family);
+  background: var(--admin-bg-primary);
+}
+
+.status-checkbox {
+  accent-color: var(--admin-primary);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}

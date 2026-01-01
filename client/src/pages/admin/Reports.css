@@ -1,0 +1,107 @@
+@import '../../admin-theme.css';
+
+.reports-page {
+  max-width: 1400px;
+}
+
+.report-section {
+  padding: var(--admin-space-xl);
+  background: var(--admin-bg-primary);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--admin-border-light);
+  margin-bottom: var(--admin-space-xl);
+}
+
+.report-section h2 {
+  font-size: var(--admin-font-size-xl);
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-primary);
+  margin-bottom: var(--admin-space-lg);
+}
+
+.report-section h3 {
+  font-size: var(--admin-font-size-lg);
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-primary);
+  margin: var(--admin-space-lg) 0 var(--admin-space-md);
+}
+
+.report-section p {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-secondary);
+  margin: var(--admin-space-sm) 0;
+}
+
+.report-section select {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-sm);
+  font-family: var(--admin-font-family);
+  background: var(--admin-bg-primary);
+  margin-right: var(--admin-space-md);
+  min-width: 250px;
+}
+
+.report-section button {
+  padding: 0.625rem 1.25rem;
+  background: var(--admin-primary);
+  color: var(--admin-text-white);
+  border: none;
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-medium);
+  cursor: pointer;
+  transition: background var(--admin-transition-fast);
+}
+
+.report-section button:hover:not(:disabled) {
+  background: var(--admin-primary-dark);
+}
+
+.report-section button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.report-section div {
+  margin-top: var(--admin-space-md);
+}
+
+.report-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--admin-space-lg);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-lg);
+  overflow: hidden;
+}
+
+.report-section table th,
+.report-section table td {
+  padding: var(--admin-space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.report-section table th {
+  background: var(--admin-bg-secondary);
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-secondary);
+  font-size: var(--admin-font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.report-section table td {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-primary);
+}
+
+.report-section table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.report-section table tbody tr:hover {
+  background: var(--admin-bg-secondary);
+}

@@ -1,0 +1,118 @@
+@import '../../admin-theme.css';
+
+.registration-management {
+  max-width: 1400px;
+}
+
+.event-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-md);
+  padding: var(--admin-space-lg);
+  background: var(--admin-bg-secondary);
+  border-radius: var(--admin-radius-lg);
+  margin-bottom: var(--admin-space-xl);
+}
+
+.event-selector label {
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-medium);
+  color: var(--admin-text-primary);
+}
+
+.registrations-table-container {
+  margin-top: var(--admin-space-xl);
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--admin-space-lg);
+  margin-bottom: var(--admin-space-xl);
+}
+
+.stat-item {
+  padding: var(--admin-space-lg);
+  background: var(--admin-bg-secondary);
+  border-radius: var(--admin-radius-lg);
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-secondary);
+  margin-bottom: var(--admin-space-sm);
+}
+
+.stat-value {
+  display: block;
+  font-size: var(--admin-font-size-3xl);
+  font-weight: var(--admin-font-weight-bold);
+  color: var(--admin-text-primary);
+}
+
+.participant-count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-xs);
+  padding: 0.25rem 0.75rem;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--admin-primary);
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-medium);
+}
+
+.status-toggle {
+  cursor: pointer;
+}
+
+.status-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-xs);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-font-size-xs);
+  font-weight: var(--admin-font-weight-medium);
+  transition: all var(--admin-transition-fast);
+}
+
+.status-paid {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--admin-success);
+}
+
+.status-pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--admin-warning);
+}
+
+.status-present {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--admin-success);
+}
+
+.status-absent {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--admin-danger);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--admin-space-3xl);
+  color: var(--admin-text-secondary);
+  gap: var(--admin-space-md);
+}
+
+.empty-state p {
+  font-size: var(--admin-font-size-base);
+}

@@ -1,0 +1,9 @@
+.admin-toast-container {
+  position: fixed;
+  top: var(--admin-space-lg);
+  right: var(--admin-space-lg);
+  z-index: var(--admin-z-tooltip);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

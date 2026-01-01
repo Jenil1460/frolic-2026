@@ -1,0 +1,72 @@
+@import '../../admin-theme.css';
+
+.result-management {
+  max-width: 1400px;
+}
+
+.winner-form {
+  margin-top: var(--admin-space-xl);
+}
+
+.winner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--admin-space-xl);
+  margin-bottom: var(--admin-space-2xl);
+}
+
+.winner-card {
+  padding: var(--admin-space-xl);
+  border-radius: var(--admin-radius-xl);
+  text-align: center;
+  position: relative;
+  border: 2px solid;
+}
+
+.winner-first {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.05));
+  border-color: #ffd700;
+}
+
+.winner-second {
+  background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(169, 169, 169, 0.05));
+  border-color: #c0c0c0;
+}
+
+.winner-third {
+  background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), rgba(184, 115, 51, 0.05));
+  border-color: #cd7f32;
+}
+
+.winner-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--admin-space-md);
+  margin-bottom: var(--admin-space-lg);
+}
+
+.winner-first .winner-header svg {
+  color: #ffd700;
+}
+
+.winner-second .winner-header svg {
+  color: #c0c0c0;
+}
+
+.winner-third .winner-header svg {
+  color: #cd7f32;
+}
+
+.winner-header h3 {
+  font-size: var(--admin-font-size-lg);
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-primary);
+  margin: 0;
+}
+
+@media (max-width: 968px) {
+  .winner-grid {
+    grid-template-columns: 1fr;
+  }
+}

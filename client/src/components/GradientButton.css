@@ -1,0 +1,109 @@
+.gradient-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-button-gradient-start), var(--color-button-gradient-end));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.gradient-button-primary {
+  background: linear-gradient(135deg, var(--color-button-gradient-start), var(--color-button-gradient-end));
+  color: var(--color-text-primary);
+  box-shadow: 
+    0 12px 40px rgba(59, 130, 246, 0.45),
+    0 0 50px rgba(139, 92, 246, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.gradient-button-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.gradient-button-primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.gradient-button-primary:hover::before {
+  opacity: 1;
+}
+
+.gradient-button-primary:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.gradient-button-primary:hover {
+  box-shadow: 
+    0 16px 50px rgba(59, 130, 246, 0.55),
+    0 0 70px rgba(139, 92, 246, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.gradient-button-secondary {
+  background: var(--color-input-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  backdrop-filter: blur(10px);
+}
+
+.gradient-button-secondary:hover {
+  background: var(--color-input-bg-hover);
+  border-color: var(--color-input-border);
+}
+
+.gradient-button-secondary:hover::before {
+  opacity: 1;
+}
+
+.gradient-button-primary:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 8px 30px rgba(59, 130, 246, 0.4),
+    0 0 40px rgba(139, 92, 246, 0.35);
+}
+
+.gradient-button:active {
+  transform: translateY(0);
+}

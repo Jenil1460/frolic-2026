@@ -1,0 +1,120 @@
+.admin-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--admin-border-light);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-bg-primary);
+}
+
+.admin-table-header {
+  background: var(--admin-bg-secondary);
+}
+
+.admin-table-header-cell {
+  padding: var(--admin-space-md) var(--admin-space-lg);
+  text-align: left;
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.admin-table-body .admin-table-row {
+  border-bottom: 1px solid var(--admin-border-light);
+  transition: background-color var(--admin-transition-fast);
+}
+
+.admin-table-body .admin-table-row:last-child {
+  border-bottom: none;
+}
+
+.admin-table-row-clickable {
+  cursor: pointer;
+}
+
+.admin-table-row:hover {
+  background: var(--admin-bg-secondary);
+}
+
+.admin-table-cell {
+  padding: var(--admin-space-md) var(--admin-space-lg);
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-primary);
+}
+
+.admin-table-empty {
+  padding: var(--admin-space-3xl);
+  text-align: center;
+  color: var(--admin-text-secondary);
+  font-size: var(--admin-font-size-base);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-bg-secondary);
+}
+
+/* Mobile Card View */
+.admin-table-mobile-cards {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .admin-table-wrapper {
+    display: none;
+  }
+
+  .admin-table-mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--admin-space-md);
+  }
+
+  .admin-table-mobile-card {
+    background: var(--admin-bg-primary);
+    border: 1px solid var(--admin-border-light);
+    border-radius: var(--admin-radius-lg);
+    padding: var(--admin-space-lg);
+    box-shadow: var(--admin-shadow-sm);
+  }
+
+  .admin-table-mobile-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--admin-space-sm) 0;
+    border-bottom: 1px solid var(--admin-border-light);
+  }
+
+  .admin-table-mobile-card-row:last-child {
+    border-bottom: none;
+  }
+
+  .admin-table-mobile-label {
+    font-size: var(--admin-font-size-xs);
+    font-weight: var(--admin-font-weight-semibold);
+    color: var(--admin-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--admin-space-xs);
+  }
+
+  .admin-table-mobile-value {
+    font-size: var(--admin-font-size-sm);
+    color: var(--admin-text-primary);
+    text-align: right;
+  }
+}
+
+/* Touch-friendly adjustments */
+@media (max-width: 768px) {
+  .admin-table-cell button,
+  .admin-table-mobile-card button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

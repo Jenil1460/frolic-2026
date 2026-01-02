@@ -86,6 +86,11 @@ if (process.env.NODE_ENV === 'production' && fs.existsSync(clientIndex)) {
   app.get('/', (req, res) => res.send('API is running'));
 }
 
+// Diagnostic ping endpoint
+app.get('/api/ping', (req, res) => {
+  res.json({ success: true, message: 'pong' });
+});
+
 // Not found middleware
 app.use((req, res, next) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);

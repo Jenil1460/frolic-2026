@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, Users, Trophy, Building2, Target, Zap, Award, ArrowRight, Star, CheckCircle } from 'lucide-react';
+import FadeIn from '../components/animations/FadeIn';
+import ScaleIn from '../components/animations/ScaleIn';
+import StaggerChildren from '../components/animations/StaggerChildren';
 import './Home.css';
 
 export default function Home({ onNavigate }) {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   
   useEffect(() => {
     // Smooth scroll behavior
@@ -28,30 +34,48 @@ export default function Home({ onNavigate }) {
 
       {/* Hero Section */}
       <section id="home" className="hero-section">
-        <div className="hero-container">
+        <motion.div className="hero-container" style={{ y }}>
           <div className="hero-content">
-            <div className="hero-badge">
-              <span className="badge-dot"></span>
-              College Event Platform
-            </div>
-            <h1 className="hero-title">
-              Discover. Register.
-              <span className="gradient-text"> Participate.</span>
-            </h1>
-            <p className="hero-subtitle">
-              Your ultimate platform for discovering and managing inter-college events. 
-              Join thousands of students creating unforgettable experiences.
-            </p>
-            <div className="hero-actions">
-              <button className="cta-button primary" onClick={() => onNavigate('/register')}>
-                Get Started Free
-                <ArrowRight size={20} />
-              </button>
-              <button className="cta-button secondary" onClick={() => onNavigate('/events')}>
-                Explore Events
-              </button>
-            </div>
-            <div className="hero-stats">
+            <FadeIn delay={0.2} direction="down">
+              <div className="hero-badge">
+                <span className="badge-dot"></span>
+                College Event Platform
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.4} direction="up">
+              <h1 className="hero-title">
+                Discover. Register.
+                <span className="gradient-text"> Participate.</span>
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.6} direction="up">
+              <p className="hero-subtitle">
+                Your ultimate platform for discovering and managing inter-college events. 
+                Join thousands of students creating unforgettable experiences.
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.8} direction="up">
+              <div className="hero-actions">
+                <motion.button 
+                  className="cta-button primary" 
+                  onClick={() => onNavigate('/register')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started Free
+                  <ArrowRight size={20} />
+                </motion.button>
+                <motion.button 
+                  className="cta-button secondary" 
+                  onClick={() => onNavigate('/events')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Explore Events
+                </motion.button>
+              </div>
+            </FadeIn>
+            <StaggerChildren staggerDelay={0.15} className="hero-stats">
               <div className="stat-item">
                 <div className="stat-number">500+</div>
                 <div className="stat-label">Active Events</div>
@@ -64,12 +88,21 @@ export default function Home({ onNavigate }) {
                 <div className="stat-number">100+</div>
                 <div className="stat-label">Institutes</div>
               </div>
-            </div>
+            </StaggerChildren>
           </div>
           
           {/* Floating Cards */}
-          <div className="hero-visual">
-            <div className="floating-card card-1">
+          <motion.div 
+            className="hero-visual"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            <motion.div 
+              className="floating-card card-1"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            >
               <Calendar size={24} className="card-icon" />
               <div className="card-content">
                 <h4>Tech Fest 2024</h4>
@@ -79,9 +112,13 @@ export default function Home({ onNavigate }) {
                   <span>2.5K participants</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="floating-card card-2">
+            <motion.div 
+              className="floating-card card-2"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 6, delay: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
               <Trophy size={24} className="card-icon" />
               <div className="card-content">
                 <h4>Cultural Night</h4>
@@ -91,9 +128,13 @@ export default function Home({ onNavigate }) {
                   <span>Featured Event</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="floating-card card-3">
+            <motion.div 
+              className="floating-card card-3"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 6, delay: 4, repeat: Infinity, ease: "easeInOut" }}
+            >
               <Award size={24} className="card-icon" />
               <div className="card-content">
                 <h4>Hackathon Pro</h4>
@@ -103,19 +144,19 @@ export default function Home({ onNavigate }) {
                   <span>Registration Open</span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Events Section */}
       <section id="events" className="events-section">
         <div className="section-container">
-          <div className="section-header">
+          <FadeIn delay={0.2} className="section-header">
             <span className="section-label">Upcoming Events</span>
             <h2 className="section-title">Discover Amazing Events</h2>
             <p className="section-subtitle">Browse and register for exciting inter-college competitions and festivals</p>
-          </div>
+          </FadeIn>
           
           <div className="empty-state">
             <div className="empty-icon">
@@ -133,77 +174,90 @@ export default function Home({ onNavigate }) {
       {/* Features Section - How It Works */}
       <section id="how-it-works" className="features-section">
         <div className="section-container">
-          <div className="section-header">
+          <FadeIn delay={0.2} className="section-header">
             <span className="section-label">How It Works</span>
             <h2 className="section-title">Get Started in 3 Simple Steps</h2>
-          </div>
+          </FadeIn>
           
-          <div className="features-grid">
-            <div className="feature-card">
+          <StaggerChildren staggerDelay={0.2} className="features-grid">
+            <motion.div 
+              className="feature-card"
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            >
               <div className="feature-number">01</div>
               <div className="feature-icon">
                 <Target size={32} />
               </div>
               <h3>Browse Events</h3>
               <p>Explore hundreds of events across multiple institutions. Filter by category, date, and location.</p>
-            </div>
+            </motion.div>
             
-            <div className="feature-card">
+            <motion.div 
+              className="feature-card"
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            >
               <div className="feature-number">02</div>
               <div className="feature-icon">
                 <Calendar size={32} />
               </div>
               <h3>Register Instantly</h3>
               <p>Quick and easy registration process. Fill in your details and you're good to go!</p>
-            </div>
+            </motion.div>
             
-            <div className="feature-card">
+            <motion.div 
+              className="feature-card"
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            >
               <div className="feature-number">03</div>
               <div className="feature-icon">
                 <Trophy size={32} />
               </div>
               <h3>Participate & Win</h3>
               <p>Show your skills, compete with peers, and track your achievements in real-time.</p>
-            </div>
-          </div>
+            </motion.div>
+          </StaggerChildren>
         </div>
       </section>
 
       {/* Institutes Section */}
       <section id="institutes" className="institutes-section">
         <div className="section-container">
-          <div className="section-header">
+          <FadeIn delay={0.2} className="section-header">
             <span className="section-label">Partner Network</span>
             <h2 className="section-title">Participating Institutes</h2>
             <p className="section-subtitle">Join our growing network of educational institutions</p>
-          </div>
+          </FadeIn>
           
-          <div className="empty-state">
-            <div className="empty-icon">
-              <Building2 size={80} />
+          <ScaleIn delay={0.4}>
+            <div className="empty-state">
+              <div className="empty-icon">
+                <Building2 size={80} />
+              </div>
+              <h3>Expanding Our Network</h3>
+              <p>We're onboarding new institutes regularly. Stay tuned!</p>
             </div>
-            <h3>Expanding Our Network</h3>
-            <p>We're onboarding new institutes regularly. Stay tuned!</p>
-          </div>
+          </ScaleIn>
         </div>
       </section>
 
       {/* Results Section */}
       <section id="results" className="results-section">
         <div className="section-container">
-          <div className="section-header">
+          <FadeIn delay={0.2} className="section-header">
             <span className="section-label">Achievements</span>
             <h2 className="section-title">Recent Winners</h2>
             <p className="section-subtitle">Celebrating success stories from our community</p>
-          </div>
+          </FadeIn>
           
-          <div className="empty-state">
-            <div className="empty-icon">
-              <Trophy size={80} />
+          <ScaleIn delay={0.4}>
+            <div className="empty-state">
+              <div className="empty-icon">
+                <Trophy size={80} />
+              </div>
+              <h3>Results Coming Soon</h3>
+              <p>Winners will be announced after event completion!</p>
             </div>
-            <h3>Results Coming Soon</h3>
-            <p>Winners will be announced after event completion!</p>
-          </div>
+          </ScaleIn>
         </div>
       </section>
 
@@ -211,7 +265,7 @@ export default function Home({ onNavigate }) {
       <section id="about" className="about-section">
         <div className="section-container">
           <div className="about-content">
-            <div className="about-text">
+            <FadeIn delay={0.2} direction="left" className="about-text">
               <span className="section-label">About Frolic</span>
               <h2 className="section-title">Revolutionizing Event Management</h2>
               <p className="about-description">
@@ -242,9 +296,9 @@ export default function Home({ onNavigate }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </FadeIn>
             
-            <div className="about-visual">
+            <FadeIn delay={0.4} direction="right" className="about-visual">
               <div className="about-card">
                 <Zap size={48} />
                 <h3>Fast Registration</h3>
@@ -260,7 +314,7 @@ export default function Home({ onNavigate }) {
                 <h3>Track Progress</h3>
                 <p>Monitor your achievements</p>
               </div>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
@@ -268,19 +322,31 @@ export default function Home({ onNavigate }) {
       {/* Final CTA Section */}
       <section className="final-cta-section">
         <div className="section-container">
-          <div className="final-cta-content">
-            <h2>Ready to Get Started?</h2>
-            <p>Join thousands of students already using Frolic</p>
-            <div className="cta-actions">
-              <button className="cta-button primary large" onClick={() => onNavigate('/register')}>
-                Create Free Account
-                <ArrowRight size={24} />
-              </button>
-              <button className="cta-button secondary large" onClick={() => onNavigate('/events')}>
-                Browse Events
-              </button>
+          <FadeIn delay={0.2}>
+            <div className="final-cta-content">
+              <h2>Ready to Get Started?</h2>
+              <p>Join thousands of students already using Frolic</p>
+              <div className="cta-actions">
+                <motion.button 
+                  className="cta-button primary large" 
+                  onClick={() => onNavigate('/register')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Create Free Account
+                  <ArrowRight size={24} />
+                </motion.button>
+                <motion.button 
+                  className="cta-button secondary large" 
+                  onClick={() => onNavigate('/events')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Browse Events
+                </motion.button>
+              </div>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
     </div>

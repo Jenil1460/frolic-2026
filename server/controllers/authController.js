@@ -59,22 +59,27 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(`POST /api/auth/login - email: ${email} - ip: ${req.ip}`);
 
     if (!email || !password) {
+      console.log('Login attempt missing fields', { emailPresent: !!email, passwordPresent: !!password, ip: req.ip });
       return sendError(res, 'Email and password are required', 400);
     }
 
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('Invalid login attempt - user not found:', email);
       return sendError(res, 'Invalid email or password', 400);
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log('Invalid login attempt - wrong password for:', email);
       return sendError(res, 'Invalid email or password', 400);
     }
     
     if (!user.isActive) {
+      console.log('Login attempt for deactivated account:', email);
       return sendError(res, 'Your account is deactivated. Please contact admin.', 403);
     }
 
@@ -92,10 +97,11 @@ export const login = async (req, res, next) => {
         role: user.role
       }
     };
-    
+    console.log('Login successful for:', email, 'id:', user._id.toString());
     sendSuccess(res, data, 'Login successful');
 
   } catch (error) {
+    console.error('Error in login:', error);
     next(error);
   }
 };

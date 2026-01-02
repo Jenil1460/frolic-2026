@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 import authRoutes from "./routes/authRoutes.js";
 
@@ -68,13 +69,19 @@ app.use("/api/admin", adminRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === 'production') {
-  const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+const clientIndex = path.join(clientBuildPath, 'index.html');
+
+if (process.env.NODE_ENV === 'production' && fs.existsSync(clientIndex)) {
   app.use(express.static(clientBuildPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
+    res.sendFile(clientIndex);
   });
 } else {
+  if (process.env.NODE_ENV === 'production' && !fs.existsSync(clientIndex)) {
+    console.warn(`Client build not found at ${clientIndex} — static serving disabled. Build client with 'cd client && npm run build' and redeploy.`);
+  }
+
   // Simple health check for environments where frontend is served separately
   app.get('/', (req, res) => res.send('API is running'));
 }

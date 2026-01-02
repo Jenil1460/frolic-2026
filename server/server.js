@@ -39,8 +39,16 @@ process.on('unhandledRejection', (reason, promise) => {
 const app = express();
 
 // CORS configuration
+// If CLIENT_URL is set, only allow that origin. Otherwise allow any origin (useful when frontend is served from same host).
+const allowedOrigins = [process.env.CLIENT_URL].filter(Boolean);
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? true : (process.env.CLIENT_URL || 'http://localhost:5173'),
+  origin: function (origin, callback) {
+    // Allow non-browser requests (no origin) and same-origin requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+    callback(new Error('CORS policy: origin not allowed'));
+  },
   credentials: true
 };
 app.use(cors(corsOptions));

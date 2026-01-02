@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/authRoutes.js";
 
@@ -36,10 +38,11 @@ process.on('unhandledRejection', (reason, promise) => {
 const app = express();
 
 // CORS configuration
-app.use(cors({
-  origin: 'http://localhost:5173',
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? true : (process.env.CLIENT_URL || 'http://localhost:5173'),
   credentials: true
-}));
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -61,6 +64,21 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
 
+// Serve frontend in production or provide a root health check
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+  app.use(express.static(clientBuildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+} else {
+  // Simple health check for environments where frontend is served separately
+  app.get('/', (req, res) => res.send('API is running'));
+}
+
 // Not found middleware
 app.use((req, res, next) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);
@@ -71,6 +89,7 @@ app.use((req, res, next) => {
 // Error handling middleware
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () =>
-  console.log(`✅ Server running on http://localhost:${process.env.PORT}`)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`✅ Server running on http://localhost:${PORT}`)
 );

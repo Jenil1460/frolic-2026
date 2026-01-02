@@ -15,7 +15,7 @@ const Footer = ({ onNavigate }) => {
     <footer className="frolic-footer">
       <div className="footer-content">
         <div className="footer-section about">
-          <Logo />
+          <Logo onClick={() => onNavigate?.('/')} />
           <p>Frolic is your ultimate platform for discovering and managing college events. Join our community and never miss out on the fun!</p>
         </div>
         <div className="footer-section links">

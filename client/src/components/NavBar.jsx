@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, LogOut, Calendar } from 'lucide-react';
-import Logo from './Logo';
+import AnimatedLogo from './AnimatedLogo';
 import { isAuthenticated, getUser, logout } from '../utils/auth';
 import './NavBar.css';
 
@@ -98,9 +99,14 @@ export default function NavBar({ onNavigate }) {
   const navLinks = getNavLinks();
 
   return (
-    <header className={`frolic-nav ${scrolled ? 'scrolled' : ''}`}>
+    <motion.header 
+      className={`frolic-nav ${scrolled ? 'scrolled' : ''}`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+    >
       <div className="nav-inner">
-        <Logo onClick={() => handleNavClick('home')} />
+        <AnimatedLogo onClick={() => handleNavClick('#home')} />
         
         {/* Desktop Navigation */}
         <nav className="nav-links">
@@ -126,8 +132,15 @@ export default function NavBar({ onNavigate }) {
                 <User size={18} />
                 <span>{user?.fullName || 'Profile'}</span>
               </button>
-              {profileMenuOpen && (
-                <div className="profile-dropdown">
+              <AnimatePresence>
+                {profileMenuOpen && (
+                  <motion.div 
+                    className="profile-dropdown"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                  >
                   <div className="profile-dropdown-header">
                     <p className="profile-name">{user?.fullName}</p>
                     <p className="profile-role">{user?.role}</p>
@@ -157,8 +170,9 @@ export default function NavBar({ onNavigate }) {
                     <LogOut size={16} />
                     <span>Logout</span>
                   </button>
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
             <>
@@ -179,48 +193,58 @@ export default function NavBar({ onNavigate }) {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'mobile-menu-open' : ''}`}>
-        <nav className="mobile-nav-links">
-          {navLinks.map((link) => (
-            <a 
-              key={link.path}
-              href="#" 
-              onClick={(e) => { e.preventDefault(); handleNavClick(link.path); }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <div className="mobile-nav-actions">
-          {isLoggedIn ? (
-            <>
-              <div className="mobile-profile-info">
-                <p className="mobile-profile-name">{user?.fullName}</p>
-                <p className="mobile-profile-role">{user?.role}</p>
-              </div>
-              <button className="secondary-button" onClick={() => handleNavClick('/profile')}>
-                <User size={16} />
-                Profile
-              </button>
-              {user?.role !== 'Admin' && (
-                <button className="secondary-button" onClick={() => handleNavClick('/my-events')}>
-                  <Calendar size={16} />
-                  My Events
-                </button>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            className="mobile-menu mobile-menu-open"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            <nav className="mobile-nav-links">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.path}
+                  href="#" 
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.path); }}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+            <div className="mobile-nav-actions">
+              {isLoggedIn ? (
+                <>
+                  <div className="mobile-profile-info">
+                    <p className="mobile-profile-name">{user?.fullName}</p>
+                    <p className="mobile-profile-role">{user?.role}</p>
+                  </div>
+                  <button className="secondary-button" onClick={() => handleNavClick('/profile')}>
+                    <User size={16} />
+                    Profile
+                  </button>
+                  {user?.role !== 'Admin' && (
+                    <button className="secondary-button" onClick={() => handleNavClick('/my-events')}>
+                      <Calendar size={16} />
+                      My Events
+                    </button>
+                  )}
+                  <button className="primary-button logout-button" onClick={handleLogout}>
+                    <LogOut size={16} />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button className="secondary-button" onClick={() => handleNavClick('/login')}>Login</button>
+                  <button className="primary-button" onClick={() => handleNavClick('/register')}>Register</button>
+                </>
               )}
-              <button className="primary-button logout-button" onClick={handleLogout}>
-                <LogOut size={16} />
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="secondary-button" onClick={() => handleNavClick('/login')}>Login</button>
-              <button className="primary-button" onClick={() => handleNavClick('/register')}>Register</button>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

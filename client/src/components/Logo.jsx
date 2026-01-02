@@ -1,9 +1,23 @@
 import React from 'react';
 import './Logo.css';
 
-const Logo = () => {
+const Logo = ({ onClick }) => {
+  const handleKeyDown = (e) => {
+    if (!onClick) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
-    <div className="logo-container">
+    <div
+      className="logo-container"
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={handleKeyDown}
+    >
       <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 150 C 50 50, 150 50, 150 150" stroke="url(#paint0_linear_1_2)" stroke-width="20" stroke-linecap="round" />
         <path d="M75 125 C 75 75, 125 75, 125 125" stroke="url(#paint1_linear_1_2)" stroke-width="20" stroke-linecap="round" />

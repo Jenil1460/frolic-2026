@@ -1,0 +1,245 @@
+@import '../../admin-theme.css';
+
+.user-management {
+  max-width: 1400px;
+}
+
+.controls-bar {
+  display: flex;
+  gap: var(--admin-space-md);
+  margin-bottom: var(--admin-space-lg);
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-sm);
+  font-family: var(--admin-font-family);
+  transition: border-color var(--admin-transition-fast);
+  background: var(--admin-bg-primary);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.filters {
+  display: flex;
+  gap: var(--admin-space-md);
+  flex-wrap: wrap;
+}
+
+.role-filter,
+.role-select {
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-font-size-sm);
+  font-family: var(--admin-font-family);
+  background: var(--admin-bg-primary);
+  cursor: pointer;
+  transition: border-color var(--admin-transition-fast);
+}
+
+.role-filter:focus,
+.role-select:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.user-profile-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-md);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--admin-radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-xs);
+}
+
+.user-name {
+  font-weight: var(--admin-font-weight-semibold);
+  color: var(--admin-text-primary);
+  font-size: var(--admin-font-size-sm);
+}
+
+.user-email {
+  font-size: var(--admin-font-size-xs);
+  color: var(--admin-text-secondary);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-xs);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-font-size-xs);
+  font-weight: var(--admin-font-weight-medium);
+  white-space: nowrap;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--admin-success);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--admin-warning);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--admin-danger);
+}
+
+.actions-cell {
+  display: flex;
+  gap: var(--admin-space-sm);
+  flex-wrap: wrap;
+}
+
+.delete-confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-lg);
+}
+
+.delete-confirmation p {
+  color: var(--admin-text-secondary);
+  font-size: var(--admin-font-size-sm);
+  line-height: var(--admin-line-height-relaxed);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--admin-space-md);
+  justify-content: flex-end;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .controls-bar {
+    flex-direction: column;
+  }
+
+  .search-input {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .role-filter {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-management {
+    max-width: 100%;
+  }
+
+  .controls-bar {
+    gap: var(--admin-space-sm);
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters button {
+    width: 100%;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+    gap: var(--admin-space-xs);
+    width: 100%;
+  }
+
+  .actions-cell button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  /* Mobile card adjustments for user table */
+  .admin-table-mobile-card .user-profile-cell {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .admin-table-mobile-card .avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .admin-table-mobile-card-row {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: var(--admin-space-sm);
+  }
+
+  .admin-table-mobile-value {
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    font-size: var(--admin-font-size-xs);
+    padding: var(--admin-space-xs) var(--admin-space-sm);
+  }
+
+  .role-filter,
+  .role-select {
+    font-size: var(--admin-font-size-xs);
+    padding: var(--admin-space-xs) var(--admin-space-sm);
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-name {
+    font-size: var(--admin-font-size-xs);
+  }
+
+  .user-email {
+    font-size: 10px;
+  }
+}

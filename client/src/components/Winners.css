@@ -1,0 +1,12 @@
+.winners-section{padding:36px 20px;color:#fff}
+.section-title{font-size:1.35rem;margin-bottom:18px}
+.podium{display:flex;gap:18px;align-items:end;justify-content:center}
+.place{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px;border-radius:10px;text-align:center;min-width:120px}
+.first{transform:translateY(-18px);box-shadow:0 18px 40px rgba(124,92,255,0.12)}
+.second{transform:translateY(-6px)}
+.third{transform:translateY(0)}
+.place .num{font-size:20px;font-weight:800}
+.place .name{margin-top:6px}
+.place .medal{font-size:28px;margin-top:8px}
+.cta-row{display:flex;justify-content:center;margin-top:16px}
+.primary.small{padding:10px 16px;border-radius:10px}

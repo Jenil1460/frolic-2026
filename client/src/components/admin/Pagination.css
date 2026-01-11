@@ -1,0 +1,75 @@
+@import '../../admin-theme.css';
+
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--admin-space-lg);
+  padding: var(--admin-space-xl) 0;
+  margin-top: var(--admin-space-xl);
+  border-top: 1px solid var(--admin-border-light);
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  color: var(--admin-text-primary);
+  font-size: var(--admin-font-size-sm);
+  font-weight: var(--admin-font-weight-medium);
+  cursor: pointer;
+  transition: all var(--admin-transition-fast);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--admin-primary);
+  color: var(--admin-text-white);
+  border-color: var(--admin-primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-secondary);
+  font-weight: var(--admin-font-weight-medium);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .admin-pagination {
+    gap: var(--admin-space-md);
+    padding: var(--admin-space-lg) 0;
+    margin-top: var(--admin-space-lg);
+  }
+
+  .pagination-btn {
+    padding: 0.625rem 1.25rem;
+    min-height: 44px;
+    font-size: var(--admin-font-size-xs);
+  }
+
+  .pagination-info {
+    font-size: var(--admin-font-size-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-pagination {
+    gap: var(--admin-space-sm);
+    padding: var(--admin-space-md) 0;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+  }
+}

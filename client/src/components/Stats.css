@@ -1,0 +1,11 @@
+.stats-section{padding:32px 20px;color:#fff}
+.maxwrap{max-width:1200px;margin:0 auto}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(6px);padding:18px;border-radius:14px;text-align:center;transition:transform .25s ease, box-shadow .25s ease}
+.stat-card:hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(108,72,255,0.14)}
+.stat-card .icon{font-size:28px;margin-bottom:8px}
+.stat-card .value{font-size:22px;font-weight:800}
+.stat-card .label{opacity:.85;margin-top:6px}
+
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.stat-card{padding:14px}}
+@media(max-width:520px){.stats-grid{grid-template-columns:1fr}}

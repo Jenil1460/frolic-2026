@@ -1,0 +1,16 @@
+@import '../../admin-theme.css';
+
+.winner-management {
+  max-width: 1400px;
+}
+
+.winner-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-lg);
+  padding: var(--admin-space-xl);
+  background: var(--admin-bg-primary);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--admin-border-light);
+  margin-top: var(--admin-space-xl);
+}

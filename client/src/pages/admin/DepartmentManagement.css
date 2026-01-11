@@ -1,0 +1,11 @@
+@import '../../admin-theme.css';
+
+.department-management {
+  max-width: 1400px;
+}
+
+.department-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-lg);
+}

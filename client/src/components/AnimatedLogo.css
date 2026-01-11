@@ -1,0 +1,38 @@
+.animated-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.animated-logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  background: -webkit-linear-gradient(45deg, #8A2BE2, #4B0082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.animated-logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #8A2BE2, #FF00FF);
+  transition: width 0.3s ease;
+}
+
+.animated-logo-container:hover .animated-logo-text::after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .animated-logo-text {
+    font-size: 20px;
+  }
+}

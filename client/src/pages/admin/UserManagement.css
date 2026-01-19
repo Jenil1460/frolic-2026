@@ -11,7 +11,7 @@
   flex-wrap: wrap;
 }
 
-.search-input {
+.user-management .search-input {
   flex: 1;
   min-width: 250px;
   padding: var(--admin-space-sm) var(--admin-space-md);
@@ -23,7 +23,7 @@
   background: var(--admin-bg-primary);
 }
 
-.search-input:focus {
+.user-management .search-input:focus {
   outline: none;
   border-color: var(--admin-primary);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
@@ -141,7 +141,7 @@
     flex-direction: column;
   }
 
-  .search-input {
+  .user-management .search-input {
     width: 100%;
     min-width: unset;
   }
@@ -214,7 +214,7 @@
 }
 
 @media (max-width: 480px) {
-  .search-input {
+  .user-management .search-input {
     font-size: var(--admin-font-size-xs);
     padding: var(--admin-space-xs) var(--admin-space-sm);
   }

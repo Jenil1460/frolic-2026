@@ -116,6 +116,7 @@ export const adminAPI = {
     createGallery: (data) => api.post('/gallery', data),
     updateGallery: (id, data) => api.put(`/gallery/${id}`, data),
     addImagesToGallery: (id, images) => api.post(`/gallery/${id}/images`, { images }),
+    uploadImagesToGallery: (id, formData) => api.post(`/gallery/${id}/upload`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
     removeImageFromGallery: (id, imageIndex) => api.delete(`/gallery/${id}/images/${imageIndex}`),
     deleteGallery: (id) => api.delete(`/gallery/${id}`),
 };

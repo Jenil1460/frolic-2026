@@ -25,6 +25,11 @@ const GalleryManagement = () => {
     const [newImages, setNewImages] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
     const [imageCaption, setImageCaption] = useState('');
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [fileCaptions, setFileCaptions] = useState([]);
+    const [createSelectedFiles, setCreateSelectedFiles] = useState([]);
+    const [createFileCaptions, setCreateFileCaptions] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
         fetchGalleries();
@@ -72,6 +77,16 @@ const GalleryManagement = () => {
         setIsModalOpen(false);
         setSelectedGallery(null);
         setNewImages([]);
+        setSelectedFiles([]);
+        setFileCaptions([]);
+        setCreateSelectedFiles([]);
+        setCreateFileCaptions([]);
+    };
+
+    const handleCloseCreateModal = () => {
+        setIsCreateModalOpen(false);
+        setCreateSelectedFiles([]);
+        setCreateFileCaptions([]);
     };
 
     const handleCreateGallery = async () => {
@@ -88,6 +103,33 @@ const GalleryManagement = () => {
 
             if (response.success) {
                 showSuccess('Gallery created successfully!');
+
+                // Upload images if any were selected
+                if (createSelectedFiles.length > 0) {
+                    try {
+                        setIsUploading(true);
+                        const formDataUpload = new FormData();
+                        createSelectedFiles.forEach(file => {
+                            formDataUpload.append('images', file);
+                        });
+                        formDataUpload.append('captions', JSON.stringify(createFileCaptions));
+
+                        const uploadResponse = await adminAPI.uploadImagesToGallery(response.data._id, formDataUpload);
+
+                        if (uploadResponse.success) {
+                            showSuccess('Images uploaded successfully!');
+                        } else {
+                            showError('Gallery created but failed to upload images');
+                        }
+                    } catch (uploadErr) {
+                        console.error('Upload error:', uploadErr);
+                        showError('Gallery created but failed to upload images');
+                    } finally {
+                        setIsUploading(false);
+                    }
+                }
+
+                // Reset form and close modal
                 setFormData({
                     title: '',
                     description: '',
@@ -95,6 +137,8 @@ const GalleryManagement = () => {
                     event: '',
                     featured: false,
                 });
+                setCreateSelectedFiles([]);
+                setCreateFileCaptions([]);
                 setIsCreateModalOpen(false);
                 fetchGalleries();
             }
@@ -159,6 +203,107 @@ const GalleryManagement = () => {
 
         setImageUrl('');
         setImageCaption('');
+    };
+
+    const handleFileSelect = (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        // Validate file types
+        const validFiles = files.filter(file => {
+            const isValid = file.type.startsWith('image/');
+            if (!isValid) {
+                showError(`${file.name} is not a valid image file`);
+            }
+            return isValid;
+        });
+
+        if (validFiles.length > 0) {
+            setSelectedFiles(prev => [...prev, ...validFiles]);
+            setFileCaptions(prev => [...prev, ...new Array(validFiles.length).fill('')]);
+        }
+
+        // Reset input
+        e.target.value = '';
+    };
+
+    const handleRemoveFile = (index) => {
+        setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+        setFileCaptions(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleFileCaptionChange = (index, value) => {
+        setFileCaptions(prev => {
+            const newCaptions = [...prev];
+            newCaptions[index] = value;
+            return newCaptions;
+        });
+    };
+
+    const handleCreateFileSelect = (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        // Validate file types
+        const validFiles = files.filter(file => {
+            const isValid = file.type.startsWith('image/');
+            if (!isValid) {
+                showError(`${file.name} is not a valid image file`);
+            }
+            return isValid;
+        });
+
+        if (validFiles.length > 0) {
+            setCreateSelectedFiles(prev => [...prev, ...validFiles]);
+            setCreateFileCaptions(prev => [...prev, ...new Array(validFiles.length).fill('')]);
+        }
+
+        // Reset input
+        e.target.value = '';
+    };
+
+    const handleRemoveCreateFile = (index) => {
+        setCreateSelectedFiles(prev => prev.filter((_, i) => i !== index));
+        setCreateFileCaptions(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleCreateFileCaptionChange = (index, value) => {
+        setCreateFileCaptions(prev => {
+            const newCaptions = [...prev];
+            newCaptions[index] = value;
+            return newCaptions;
+        });
+    };
+
+    const handleUploadFiles = async () => {
+        try {
+            if (selectedFiles.length === 0) {
+                showError('Please select at least one file');
+                return;
+            }
+
+            setIsUploading(true);
+
+            const formData = new FormData();
+            selectedFiles.forEach(file => {
+                formData.append('images', file);
+            });
+            formData.append('captions', JSON.stringify(fileCaptions));
+
+            const response = await adminAPI.uploadImagesToGallery(selectedGallery._id, formData);
+
+            if (response.success) {
+                showSuccess('Images uploaded successfully!');
+                setSelectedGallery(response.data);
+                setGalleries(galleries.map(g => g._id === selectedGallery._id ? response.data : g));
+                setSelectedFiles([]);
+                setFileCaptions([]);
+            }
+        } catch (err) {
+            showError(err.message || 'Failed to upload images');
+        } finally {
+            setIsUploading(false);
+        }
     };
 
     const handleRemoveImage = async (imageIndex) => {
@@ -285,9 +430,9 @@ const GalleryManagement = () => {
             </Card>
 
             {/* Create Gallery Modal */}
-            <Modal 
+            <Modal
                 isOpen={isCreateModalOpen}
-                onClose={() => setIsCreateModalOpen(false)}
+                onClose={handleCloseCreateModal}
                 title="Create New Gallery"
                 size="md"
             >
@@ -357,6 +502,58 @@ const GalleryManagement = () => {
                         </label>
                     </div>
 
+                    {/* File Upload Section for Create Gallery */}
+                    <div className="form-group">
+                        <label>Upload Images (Optional)</label>
+                        <div className="upload-method">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleCreateFileSelect}
+                                className="file-input"
+                                id="create-gallery-file-input"
+                            />
+                            <label htmlFor="create-gallery-file-input" className="file-input-label">
+                                <ImageIcon size={20} />
+                                Choose Images
+                            </label>
+                        </div>
+
+                        {createSelectedFiles.length > 0 && (
+                            <div className="selected-files-preview">
+                                <p className="preview-label">Selected Files ({createSelectedFiles.length})</p>
+                                {createSelectedFiles.map((file, index) => (
+                                    <div key={index} className="file-preview-item">
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt={file.name}
+                                            className="file-preview-img"
+                                        />
+                                        <div className="file-preview-info">
+                                            <p className="file-name">{file.name}</p>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter caption (optional)"
+                                                value={createFileCaptions[index] || ''}
+                                                onChange={(e) => handleCreateFileCaptionChange(index, e.target.value)}
+                                                className="caption-input"
+                                            />
+                                            <Button
+                                                variant="danger"
+                                                size="sm"
+                                                onClick={() => handleRemoveCreateFile(index)}
+                                                className="remove-file-btn"
+                                            >
+                                                <X size={14} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="modal-actions">
                         <Button 
                             variant="primary" 
@@ -365,9 +562,9 @@ const GalleryManagement = () => {
                         >
                             Create Gallery
                         </Button>
-                        <Button 
-                            variant="secondary" 
-                            onClick={() => setIsCreateModalOpen(false)}
+                        <Button
+                            variant="secondary"
+                            onClick={handleCloseCreateModal}
                             size="md"
                         >
                             Cancel
@@ -489,26 +686,94 @@ const GalleryManagement = () => {
 
                         <div className="add-images-section">
                             <h5>Add Images</h5>
-                            <div className="form-group">
-                                <label>Image URL</label>
+                            
+                            {/* File Upload Section */}
+                            <div className="upload-method">
+                                <label className="upload-label">
+                                    <Upload size={16} /> Upload from Computer
+                                </label>
                                 <input
-                                    type="text"
-                                    placeholder="Enter image URL"
-                                    value={imageUrl}
-                                    onChange={(e) => setImageUrl(e.target.value)}
-                                    className="form-input"
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleFileSelect}
+                                    className="file-input"
+                                    id="gallery-file-input"
+                                    disabled={isUploading}
                                 />
+                                <label htmlFor="gallery-file-input" className="file-input-label">
+                                    <ImageIcon size={20} />
+                                    Choose Images
+                                </label>
                             </div>
 
-                            <div className="form-group">
-                                <label>Caption (Optional)</label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter image caption"
-                                    value={imageCaption}
-                                    onChange={(e) => setImageCaption(e.target.value)}
-                                    className="form-input"
-                                />
+                            {selectedFiles.length > 0 && (
+                                <div className="selected-files-preview">
+                                    <p className="preview-label">Selected Files ({selectedFiles.length})</p>
+                                    {selectedFiles.map((file, index) => (
+                                        <div key={index} className="file-preview-item">
+                                            <img 
+                                                src={URL.createObjectURL(file)} 
+                                                alt={file.name}
+                                                className="file-preview-img"
+                                            />
+                                            <div className="file-preview-info">
+                                                <p className="file-name">{file.name}</p>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter caption (optional)"
+                                                    value={fileCaptions[index] || ''}
+                                                    onChange={(e) => handleFileCaptionChange(index, e.target.value)}
+                                                    className="caption-input"
+                                                />
+                                            </div>
+                                            <button
+                                                onClick={() => handleRemoveFile(index)}
+                                                className="remove-file-btn"
+                                                disabled={isUploading}
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <Button 
+                                        variant="primary" 
+                                        onClick={handleUploadFiles}
+                                        size="md"
+                                        disabled={isUploading}
+                                        className="upload-files-btn"
+                                    >
+                                        <Upload size={16} /> {isUploading ? 'Uploading...' : `Upload ${selectedFiles.length} File(s)`}
+                                    </Button>
+                                </div>
+                            )}
+
+                            <div className="divider">
+                                <span>OR</span>
+                            </div>
+
+                            <div className="url-method">
+                                <div className="form-group">
+                                    <label>Image URL</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter image URL"
+                                        value={imageUrl}
+                                        onChange={(e) => setImageUrl(e.target.value)}
+                                        className="form-input"
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Caption (Optional)</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter image caption"
+                                        value={imageCaption}
+                                        onChange={(e) => setImageCaption(e.target.value)}
+                                        className="form-input"
+                                    />
+                                </div>
                             </div>
 
                             {newImages.length > 0 && (

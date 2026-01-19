@@ -458,3 +458,131 @@
     width: 100%;
   }
 }
+
+/* File Upload Styles */
+.upload-method {
+  margin-bottom: 1.5rem;
+}
+
+.upload-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--admin-text-primary);
+}
+
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--admin-primary);
+  color: white;
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.file-input-label:hover {
+  background: var(--admin-primary-dark);
+}
+
+.file-input-label:active {
+  transform: translateY(1px);
+}
+
+.selected-files-preview {
+  background: var(--admin-bg-secondary);
+  padding: 1rem;
+  border-radius: var(--admin-radius-md);
+  margin-bottom: 1rem;
+}
+
+.file-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-md);
+  margin-bottom: 0.75rem;
+}
+
+.file-preview-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--admin-radius-sm);
+}
+
+.file-preview-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--admin-text-primary);
+  margin: 0;
+}
+
+.caption-input {
+  padding: 0.5rem;
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-sm);
+  font-size: 0.875rem;
+}
+
+.remove-file-btn {
+  padding: 0.5rem;
+  background: var(--admin-danger);
+  color: white;
+  border: none;
+  border-radius: var(--admin-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.remove-file-btn:hover {
+  background: var(--admin-danger-dark);
+}
+
+.upload-files-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  color: var(--admin-text-secondary);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--admin-border-light);
+}
+
+.url-method {
+  margin-top: 1rem;
+}

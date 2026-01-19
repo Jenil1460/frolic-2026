@@ -12,15 +12,15 @@ const Gallery = () => {
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
-    fetchFeaturedGalleries();
+    fetchGalleries();
   }, []);
 
-  const fetchFeaturedGalleries = async () => {
+  const fetchGalleries = async () => {
     try {
       setLoading(true);
-      const response = await adminAPI.getFeaturedGalleries();
-      console.log('Featured Gallery response:', response);
-      
+      const response = await adminAPI.getGalleries();
+      console.log('Gallery response:', response);
+
       if (response.success && response.data) {
         setGalleries(response.data);
       } else if (Array.isArray(response.data)) {
@@ -29,18 +29,8 @@ const Gallery = () => {
         setGalleries([]);
       }
     } catch (err) {
-      console.error('Failed to fetch featured galleries:', err);
-      // Try fetching all galleries as fallback
-      try {
-        const allResponse = await adminAPI.getGalleries();
-        console.log('All galleries fallback:', allResponse);
-        if (allResponse.success && allResponse.data) {
-          setGalleries(allResponse.data);
-        }
-      } catch (fallbackErr) {
-        console.error('Failed to fetch all galleries:', fallbackErr);
-        setGalleries([]);
-      }
+      console.error('Failed to fetch galleries:', err);
+      setGalleries([]);
     } finally {
       setLoading(false);
     }

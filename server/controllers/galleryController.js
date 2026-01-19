@@ -1,5 +1,48 @@
 import Gallery from '../models/Gallery.js';
 import { sendSuccess, sendError } from '../utils/response.js';
+import { cloudinary } from '../config/cloudinary.js';
+
+// Upload images to Cloudinary and add to gallery
+export const uploadImagesToGallery = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { captions } = req.body; // Array of captions matching uploaded files
+    
+    if (!req.files || req.files.length === 0) {
+      return sendError(res, 'No files uploaded', 400);
+    }
+
+    const gallery = await Gallery.findById(id);
+    if (!gallery) {
+      return sendError(res, 'Gallery not found', 404);
+    }
+
+    // Parse captions if it's a string
+    let captionsArray = [];
+    if (captions) {
+      try {
+        captionsArray = typeof captions === 'string' ? JSON.parse(captions) : captions;
+      } catch (err) {
+        captionsArray = [];
+      }
+    }
+
+    // Map uploaded files to gallery images
+    const newImages = req.files.map((file, index) => ({
+      url: file.path, // Cloudinary returns the URL in file.path
+      caption: captionsArray[index] || '',
+      uploadedAt: new Date(),
+    }));
+
+    gallery.images.push(...newImages);
+    await gallery.save();
+
+    sendSuccess(res, gallery, 'Images uploaded successfully', 200);
+  } catch (error) {
+    console.error('Upload error:', error);
+    sendError(res, 500, error.message);
+  }
+};
 
 // Get all galleries
 export const getAllGalleries = async (req, res) => {
@@ -156,6 +199,21 @@ export const removeImageFromGallery = async (req, res) => {
 
     if (imageIndex < 0 || imageIndex >= gallery.images.length) {
       return sendError(res, 'Invalid image index', 400);
+    }
+
+    // Get the image URL to delete from Cloudinary
+    const imageUrl = gallery.images[imageIndex].url;
+    
+    // Extract public_id from Cloudinary URL and delete from Cloudinary
+    if (imageUrl && imageUrl.includes('cloudinary.com')) {
+      try {
+        const urlParts = imageUrl.split('/');
+        const filename = urlParts[urlParts.length - 1];
+        const publicId = `frolic/${filename.split('.')[0]}`;
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.error('Error deleting from Cloudinary:', err);
+      }
     }
 
     gallery.images.splice(imageIndex, 1);

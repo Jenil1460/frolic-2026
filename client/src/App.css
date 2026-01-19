@@ -60,3 +60,43 @@ a {
   background-color: var(--primary-color);
   color: #fff;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .primary-button, .secondary-button {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 14px 20px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Ensure proper touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Better mobile scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .primary-button, .secondary-button {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}

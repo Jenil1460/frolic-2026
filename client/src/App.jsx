@@ -37,6 +37,45 @@ function App() {
     setUserRole(getUser()?.role || '');
   }, [location]);
 
+  // Initialize auth on app load: if token exists but user not in storage, fetch profile
+  useEffect(() => {
+    // Mark auth initialization as in-progress so pages can show a loading state if needed
+    window.__authInitialized = false;
+
+    console.log('Auth init - token:', localStorage.getItem('token'));
+    console.log('Auth init - user (local):', getUser());
+
+    const initAuth = async () => {
+      try {
+        if (isAuthenticated() && !getUser()) {
+          console.log('Token exists but no user in localStorage - fetching profile');
+          const res = await (await import('./utils/api')).authAPI.getProfile();
+          const user = res.data;
+          if (user) {
+            (await import('./utils/auth')).setUser(user);
+            setIsLoggedIn(true);
+            setUserRole(user.role || '');
+            console.log('Fetched profile successfully:', user);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch profile during auth init', err);
+        // If token invalid, clear it
+        (await import('./utils/auth')).setAuthToken(null);
+      } finally {
+        // Initialization finished (either profile fetched or token absent/invalid)
+        window.__authInitialized = true;
+      }
+    };
+
+    // If there's no token at all, mark initialization as finished immediately
+    if (!isAuthenticated()) {
+      window.__authInitialized = true;
+    }
+
+    initAuth();
+  }, []);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setUserRole(getUser()?.role || '');

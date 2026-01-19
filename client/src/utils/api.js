@@ -59,6 +59,7 @@ export const eventAPI = {
   getEventById: (id) => api.get(`/events/${id}`),
   registerForEvent: (eventId) => api.post(`/events/${eventId}/register`),
   checkRegistrationStatus: (eventId) => api.get(`/events/${eventId}/registration-status`),
+  getMyEvents: () => api.get('/events/my-events'),
 };
 
 export const paymentAPI = {
@@ -106,6 +107,17 @@ export const adminAPI = {
     getInstituteReport: (instituteId) => api.get(`/reports/institute/${instituteId}`),
     getDepartmentReport: (departmentId) => api.get(`/reports/department/${departmentId}`),
     getWinnerReport: () => api.get('/reports/winners'),
+
+    // Gallery Management
+    getGalleries: () => api.get('/gallery'),
+    getFeaturedGalleries: () => api.get('/gallery/featured'),
+    getGalleryById: (id) => api.get(`/gallery/${id}`),
+    getGalleriesByCategory: (category) => api.get(`/gallery/category/${category}`),
+    createGallery: (data) => api.post('/gallery', data),
+    updateGallery: (id, data) => api.put(`/gallery/${id}`, data),
+    addImagesToGallery: (id, images) => api.post(`/gallery/${id}/images`, { images }),
+    removeImageFromGallery: (id, imageIndex) => api.delete(`/gallery/${id}/images/${imageIndex}`),
+    deleteGallery: (id) => api.delete(`/gallery/${id}`),
 };
 
 export default api;

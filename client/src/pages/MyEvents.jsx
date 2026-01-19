@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import { getUser } from '../utils/auth';
 import './MyEvents.css';
-import { authAPI } from '../utils/api';
+import { eventAPI } from '../utils/api';
 import PaymentModal from '../components/PaymentModal';
 
 const MyEvents = () => {
@@ -19,7 +19,7 @@ const MyEvents = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await authAPI.getMyRegistrations();
+      const res = await eventAPI.getMyEvents();
       setRegistrations(res.data || []);
     } catch (err) {
       console.error('Failed to fetch my events', err);

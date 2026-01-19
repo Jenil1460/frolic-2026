@@ -6,6 +6,7 @@ import ScaleIn from '../components/animations/ScaleIn';
 import StaggerChildren from '../components/animations/StaggerChildren';
 import './Home.css';
 import EventsGrid from '../components/EventsGrid';
+import Gallery from '../components/Gallery';
 import { adminAPI } from '../utils/api';
 
 export default function Home({ onNavigate }) {
@@ -182,7 +183,7 @@ export default function Home({ onNavigate }) {
           </FadeIn>
           
           {events.length > 0 ? (
-            <EventsGrid events={events} />
+            <EventsGrid events={events} onNavigate={onNavigate} />
           ) : loading ? (
             <div className="empty-state">
               <div className="empty-icon">
@@ -216,6 +217,9 @@ export default function Home({ onNavigate }) {
           )}
         </div>
       </section>
+
+      {/* Gallery Section */}
+      <Gallery />
 
       {/* Features Section - How It Works */}
       <section id="how-it-works" className="features-section">

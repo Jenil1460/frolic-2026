@@ -6,8 +6,8 @@ import './EventDetail.css';
 import PaymentModal from '../components/PaymentModal';
 
 const EventDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+   const { id } = useParams();
+   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,10 +18,25 @@ const EventDetail = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
+        console.log('EventDetail auth debug - token:', localStorage.getItem('token'));
+        console.log('EventDetail auth debug - user (local):', getUser());
+
         setLoading(true);
         const res = await eventAPI.getEventById(id);
         setEvent(res.data);
         console.log('Fetched event:', res.data);
+
+        // If token exists but user not in localStorage, fetch profile to ensure role is loaded
+        if (isAuthenticated() && !getUser()) {
+          try {
+            const profile = await (await import('../utils/api')).authAPI.getProfile();
+            (await import('../utils/auth')).setUser(profile.data);
+            console.log('EventDetail fetched profile:', profile.data);
+          } catch (err) {
+            console.error('Failed to fetch profile from EventDetail', err);
+          }
+        }
+
         if (isAuthenticated()) {
           const status = await eventAPI.checkRegistrationStatus(id);
           setRegistered(status.data.registered);
@@ -44,8 +59,9 @@ const EventDetail = () => {
     }
     const user = getUser();
     console.log('User:', user);
-    if (user.role !== 'Student') {
-      console.log('User role not Student');
+    const role = user?.role?.toString?.().toLowerCase?.() || '';
+    if (role !== 'student') {
+      console.log('User role not student (role:', user?.role, ')');
       return alert('Only students can register for events');
     }
 
@@ -53,7 +69,9 @@ const EventDetail = () => {
       console.log('Calling register API for event:', id);
       const res = await eventAPI.registerForEvent(id);
       console.log('Registration response:', res);
-      setRegistrationId(res.data.registrationId);
+      // API returns { success, data: { registrationId }, message }
+      const regId = res?.data?.registrationId || res?.registrationId || (res?.data && res.data.data && res.data.data.registrationId);
+      setRegistrationId(regId);
       // Open payment modal
       setShowPayment(true);
     } catch (err) {
@@ -144,15 +162,32 @@ const EventDetail = () => {
           <h1>{event.name}</h1>
           <p>{new Date(event.eventDate).toLocaleString()}</p>
           <div className="hero-actions">
-            {isAuthenticated() && getUser().role === 'Student' ? (
-              !registered ? (
-                <button className="register-cta" onClick={handleRegister}>Register Now</button>
-              ) : (
-                <button className="registered" disabled>Already Registered</button>
-              )
-            ) : (
-              <button className="register-cta" onClick={() => navigate('/login')}>Login to Register</button>
-            )}
+            {(() => {
+              const user = getUser();
+              const role = user?.role?.toString?.().toLowerCase?.() || '';
+              const authInitDone = window.__authInitialized === true;
+
+              if (isAuthenticated() && role === 'student') {
+                return !registered ? (
+                  <button className="register-cta" onClick={handleRegister}>Register Now</button>
+                ) : (
+                  <button className="registered" disabled>Already Registered</button>
+                );
+              }
+
+              // If token exists but profile still loading, show a loading state
+              if (isAuthenticated() && !user && !authInitDone) {
+                return <button className="register-cta" disabled>Loading...</button>;
+              }
+
+              // If token exists but profile failed to load or user not a student, fall back to login
+              if (!isAuthenticated() || (isAuthenticated() && !user && authInitDone)) {
+                return <button className="register-cta" onClick={() => navigate('/login')}>Login to Register</button>;
+              }
+
+              // Default
+              return <button className="register-cta" onClick={() => navigate('/login')}>Login to Register</button>;
+            })()}
           </div>
         </div>
       </div>

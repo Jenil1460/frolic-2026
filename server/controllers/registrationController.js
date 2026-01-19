@@ -8,7 +8,7 @@ export const registerForEvent = async (req, res, next) => {
     const eventId = req.params.id;
 
     if (!user) return sendError(res, 'Authentication required', 401);
-    if (user.role !== 'Student') return sendError(res, 'Only students can register for events', 403);
+    if (user.role !== 'STUDENT') return sendError(res, 'Only students can register for events', 403);
 
     const event = await Event.findById(eventId);
     if (!event) return sendError(res, 'Event not found', 404);

@@ -16,6 +16,7 @@ import winnerRoutes from "./routes/winnerRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import galleryRoutes from "./routes/galleryRoutes.js";
 import connectDB from './config/db.js';
 import reportRoutes from "./routes/reportRoutes.js";
 import coordinatorRoutes from './routes/coordinatorRoutes.js';
@@ -74,6 +75,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 // Serve frontend in production or provide a root health check
 const __filename = fileURLToPath(import.meta.url);
